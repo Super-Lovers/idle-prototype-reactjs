@@ -1,6 +1,13 @@
 // Dependancies
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+// Fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons';
+
+// Semantic-ui and CSS
 import 'semantic-ui-css/semantic.min.css'
 import './index.css';
 
@@ -8,6 +15,7 @@ import './index.css';
 import App from './app/App';
 import Programmer from './programmer/Programmer';
 
+library.add(fab, faCheckSquare, faCoffee);
 // Performance & optimization
 // import reportWebVitals from './reportWebVitals';
 

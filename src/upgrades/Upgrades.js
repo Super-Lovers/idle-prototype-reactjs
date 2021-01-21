@@ -2,6 +2,7 @@
 import React from 'react';
 import upgrades from './upgrades_seed copy';
 import uuid from 'react-uuid';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Source code
 import './Upgrades.css';
@@ -14,8 +15,11 @@ class Upgrades extends React.Component {
 			<Upgrade
 				key={uuid()}
 				icon={upgrade.icon}
+				color={upgrade.color}
 				title={upgrade.title}
+				visible={upgrade.visible}
 				unlockUpgrade={this.unlockUpgrade}
+				quantity={upgrade.quantity}
 			/>
 		));
 
@@ -47,18 +51,30 @@ class Upgrades extends React.Component {
 
 class Upgrade extends React.Component {
 	render() {
-		return (
-			<div className='column upgrade'>
-				<button
-					className="fluid ui basic button"
-					onClick={this.handleUnlockUpgrade}
-					>
-					<i className={`icon ${this.props.icon}`}></i>
-					{this.props.title}
-				</button>
-				<div className="ui inverted divider"></div>
-			</div>
-		);
+		if (this.props.visible) {
+			return (
+				<div className='column upgrade'>
+					<button
+						className={`fluid ui inverted ${this.props.color} button`}
+						onClick={this.handleUnlockUpgrade}
+						>
+						<i className='icon'>{this.props.icon}</i>
+						{this.props.title}
+					</button>
+					<div className="ui inverted divider"></div>
+				</div>
+			);
+		} else {
+			return (
+				<div className='column upgrade'>
+					<button disabled className="fluid ui black button">
+						<i className='icon lock'></i>
+						Locked
+					</button>
+					<div className="ui inverted divider"></div>
+				</div>
+			);
+		}
 	}
 
 	handleUnlockUpgrade = () => {
