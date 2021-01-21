@@ -10,12 +10,19 @@ import Milestones from '../milestones/Milestones';
 import Upgrades from '../upgrades/Upgrades';
 
 class App extends React.Component {
+	state = {
+		'characters_of_code': 0,
+		'lines_of_code': 2000,
+	};
+
 	render() { 
 		return (
 			<div className='app ui vertically divided grid container'>
 				<Programmer />
 				<Milestones />
-				<Upgrades />
+				<Upgrades
+					data={this.state}
+				/>
 			</div>
 		);
 	};

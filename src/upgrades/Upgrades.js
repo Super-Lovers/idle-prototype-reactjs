@@ -15,6 +15,7 @@ class Upgrades extends React.Component {
 				key={uuid()}
 				icon={upgrade.icon}
 				title={upgrade.title}
+				unlockUpgrade={this.unlockUpgrade}
 			/>
 		));
 
@@ -27,18 +28,42 @@ class Upgrades extends React.Component {
 			</div>
 		);
 	};
+
+	unlockUpgrade = (upgrade) => {
+		const upgrades = this.state.upgrades.map((state_upgrade) => {
+			if (state_upgrade.title === upgrade.props.title &&
+				state_upgrade.requirements.lines_of_code <= this.props.data.lines_of_code) {
+				return Object.assign({}, state_upgrade, {
+					unlocked: true
+				});
+			} else {
+				return state_upgrade;
+			}
+		});
+
+		this.setState({upgrades});
+	};
 }
 
-function Upgrade(props) {
-	return (
-		<div className='column upgrade'>
-			<button className="fluid ui basic button">
-				<i className={`icon ${props.icon}`}></i>
-				{props.title}
-			</button>
-			<div className="ui inverted divider"></div>
-		</div>
-	);
+class Upgrade extends React.Component {
+	render() {
+		return (
+			<div className='column upgrade'>
+				<button
+					className="fluid ui basic button"
+					onClick={this.handleUnlockUpgrade}
+					>
+					<i className={`icon ${this.props.icon}`}></i>
+					{this.props.title}
+				</button>
+				<div className="ui inverted divider"></div>
+			</div>
+		);
+	}
+
+	handleUnlockUpgrade = () => {
+		this.props.unlockUpgrade(this);
+	}
 }
 
 export default Upgrades;
