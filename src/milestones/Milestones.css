@@ -1,0 +1,3 @@
+.milestone:last-of-type > .divider {
+	display: none;
+}
