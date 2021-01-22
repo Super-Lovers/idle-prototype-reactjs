@@ -13,9 +13,11 @@ class Programmer extends React.Component {
 					<div className='ui column centered lines_of_code'>
 						<span className='lines_of_code_number'>
 						<br/>
+							{/*TODO: Add total lines of code being added from the upgrades */}
 							{this.props.lines_of_code}
+							<p className='total_lines_added'> +({this.props.lines_of_code_per_second} LoC/s)</p>
 						</span>
-						<p className='lines_of_code_label'> lines of code</p>
+						<p className='lines_of_code_label'> lines of code written..</p>
 					</div>
 					<div className='ui column'>
 						<img 

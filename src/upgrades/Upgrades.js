@@ -38,9 +38,11 @@ class Upgrades extends React.Component {
 	unlockUpgrade = (upgrade) => {
 		let index, counter = 0;
 		let canPurchase = false;
+		let total_lines_of_code_per_second = 0;
 
 		const upgrades = this.state.upgrades.map((state_upgrade) => {
 			counter++;
+
 			if (state_upgrade.title === upgrade.props.title &&
 				state_upgrade.price_properties.current_price <= this.props.data.lines_of_code) {
 				canPurchase = true;
@@ -74,17 +76,26 @@ class Upgrades extends React.Component {
 				state_upgrade.output_properties.current_increment =
 					(quantity * (output_base_multiplier * current_multiplier)).toFixed(2);
 
+				if (quantity > 0) {
+					total_lines_of_code_per_second += parseFloat(state_upgrade.output_properties.current_increment);
+				}
 
 				return Object.assign({}, state_upgrade, {
 					unlocked: true
 				});
 			} else {
+				if (state_upgrade.quantity > 0) {
+					total_lines_of_code_per_second += parseFloat(state_upgrade.output_properties.current_increment);
+				}
+				
 				return state_upgrade;
 			}
 		});
 
 		// TODO: Make a pop-up to indicate why the purchase failed
 		if (canPurchase === false) { return; }
+
+		this.props.handleUpdateLinesOfCodePerSecond(total_lines_of_code_per_second);
 
 		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
 		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
@@ -103,8 +114,11 @@ class Upgrades extends React.Component {
 	}
 }
 
-class Upgrade extends React.Component {
+class Upgrade extends React.Component {	
 	render() {
+		const current_increment =
+			this.props.quantity > 0 ? this.props.output_properties.current_increment : 0;
+
 		if (this.props.visible) {
 			return (
 				<div className='column upgrade'>
@@ -121,7 +135,7 @@ class Upgrade extends React.Component {
 						>
 						<i className='icon'>{this.props.icon}</i>
 						{this.props.title}
-						<span className='increment'> +({this.props.output_properties.current_increment})</span>
+						<span className='increment'> +({current_increment})</span>
 					</button>
 					<div className="ui inverted divider"></div>
 				</div>

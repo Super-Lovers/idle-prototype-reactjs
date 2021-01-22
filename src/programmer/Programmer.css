@@ -14,3 +14,11 @@
 .lines_of_code_label {
 	font-size: 1.5em;
 }
+
+.total_lines_added {
+	margin: 5px 0 0 0;
+	font-size: 0.5em;
+	vertical-align: top;
+	color: rgba(0, 150, 0, 0.8);
+	font-weight: bold;
+}
