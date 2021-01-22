@@ -24,7 +24,9 @@ class App extends React.Component {
 					lines_of_code_per_second={this.state.lines_of_code_per_second}
 					handleClickIncrementCode={this.clickIncrementCode}
 				/>
-				<Milestones />
+				<Milestones 
+					data={this.state}
+				/>
 				<Upgrades
 					data={this.state}
 					handleClickDecrementCode={this.clickDecrementCode}

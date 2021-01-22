@@ -108,11 +108,6 @@ class Upgrades extends React.Component {
 
 		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
 		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
-		// console.log(index + " < " + upgrades.length);
-		// console.log(upgrades[index - 1].max_quantity === upgrades[index - 1].quantity);
-		// console.log(upgrades[index = 1].quantity >= 3);
-		// console.log(upgrades[index].visible === false);
-		console.log(upgrades[index - 1]);
 		if (index < upgrades.length &&
 			(upgrades[index - 1].quantity === upgrades[index - 1].max_quantity ||
 			upgrades[index - 1].quantity >= 3) &&

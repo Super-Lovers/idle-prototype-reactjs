@@ -2,7 +2,6 @@
 import React from 'react';
 import milestones_seed from './milestones_seed';
 import uuid from 'react-uuid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Source code
 import './Milestones.css';
@@ -19,6 +18,7 @@ class Milestones extends React.Component {
 				icon_alt={milestone.icon_alt}
 				unlocked={milestone.unlocked}
 				lines_of_code={milestone.lines_of_code}
+				data={this.props.data}
 			/>
 		));
 
@@ -42,7 +42,7 @@ function Milestone(props) {
 		icon_output = <i className='icon'>{props.icon}</i>;
 	}
 
-	if (props.unlocked) {
+	if (props.lines_of_code <= props.data.lines_of_code) {
 		return (
 			<div className='column milestone piled segment'>
 				<div className="fluid ui segment">
@@ -53,7 +53,6 @@ function Milestone(props) {
 			</div>
 		);
 	} else {
-
 		return (
 			<div className='column milestone piled segment'>
 				<div className="fluid ui segment">
