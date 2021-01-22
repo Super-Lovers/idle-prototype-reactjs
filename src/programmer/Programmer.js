@@ -31,7 +31,7 @@ class Programmer extends React.Component {
 	};
 
 	handleClick = () => {
-		this.props.handleClickIncrementCode();
+		this.props.handleClickIncrementCode(1);
 	};
 }
 

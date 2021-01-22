@@ -12,7 +12,7 @@ import Upgrades from '../upgrades/Upgrades';
 class App extends React.Component {
 	state = {
 		'characters_of_code': 0,
-		'lines_of_code': 100,
+		'lines_of_code': 100000,
 	};
 
 	render() { 
@@ -25,20 +25,31 @@ class App extends React.Component {
 				<Milestones />
 				<Upgrades
 					data={this.state}
+					handleClickDecrementCode={this.clickDecrementCode}
 				/>
 			</div>
 		);
 	};
 
 	// Triggered on tap/click
-	clickIncrementCode = () => {
-		this.incrementLinesOfCode(1);
+	clickIncrementCode = (arg) => {
+		this.incrementLinesOfCode(arg);
 	}
 
-	// Triggered automatically periodically or through a tap/click
+	clickDecrementCode = (arg) => {
+		this.decrementLinesOfCode(arg);
+	}
+	// Functions triggered automatically periodically or through a tap/click
+	// ==============================
 	incrementLinesOfCode = (increment) => {
 		this.setState((previousState, props) => ({
 			lines_of_code: previousState.lines_of_code + increment
+		}));
+	}
+
+	decrementLinesOfCode = (increment) => {
+		this.setState((previousState, props) => ({
+			lines_of_code: previousState.lines_of_code - increment
 		}));
 	}
 }

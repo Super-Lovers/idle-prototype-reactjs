@@ -37,12 +37,13 @@ class Upgrades extends React.Component {
 
 	unlockUpgrade = (upgrade) => {
 		let index, counter = 0;
+		let canPurchase = false;
 
 		const upgrades = this.state.upgrades.map((state_upgrade) => {
 			counter++;
 			if (state_upgrade.title === upgrade.props.title &&
 				state_upgrade.price_properties.current_price <= this.props.data.lines_of_code) {
-
+				canPurchase = true;
 				index = counter;
 
 				state_upgrade.quantity++;
@@ -52,6 +53,10 @@ class Upgrades extends React.Component {
 				const base_price = state_upgrade.price_properties.base_price;
 				const cost_multiplier = state_upgrade.price_properties.multiplier;
 				const quantity = state_upgrade.quantity;
+
+				// First we take lines of code from the user
+				// before updating the cost of the upgrade
+				this.handleDecrementCode(state_upgrade.price_properties.current_price);
 
 				state_upgrade.price_properties.current_price =
 					Math.ceil(base_price * Math.pow(cost_multiplier, quantity));
@@ -69,6 +74,7 @@ class Upgrades extends React.Component {
 				state_upgrade.output_properties.current_increment =
 					(quantity * (output_base_multiplier * current_multiplier)).toFixed(2);
 
+
 				return Object.assign({}, state_upgrade, {
 					unlocked: true
 				});
@@ -77,12 +83,24 @@ class Upgrades extends React.Component {
 			}
 		});
 
-		if (upgrades[index].visible === false) {
+		// TODO: Make a pop-up to indicate why the purchase failed
+		if (canPurchase === false) { return; }
+
+		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
+		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
+		if (index < upgrades.length &&
+			upgrades[index - 1].quantity >= 3 &&
+			upgrades[index].visible === false) {
+				
 			upgrades[index].visible = true;
 		}
 
 		this.setState({upgrades});
 	};
+
+	handleDecrementCode = (arg) => {
+		this.props.handleClickDecrementCode(arg);
+	}
 }
 
 class Upgrade extends React.Component {
@@ -91,11 +109,11 @@ class Upgrade extends React.Component {
 			return (
 				<div className='column upgrade'>
 					<div className='ui segment'>
-					<p className='price'>
-						<FontAwesomeIcon icon='code'/>
-						<span> {this.props.price_properties.current_price}</span>
-						<span> <b>(tier {this.props.quantity})</b></span>
-					</p>
+						<p className='price'>
+							<FontAwesomeIcon icon='code'/>
+							<span> {this.props.price_properties.current_price}</span>
+							<span> <b>(tier {this.props.quantity})</b></span>
+						</p>
 					</div>
 					<button
 						className={`fluid ui inverted ${this.props.color} button`}
