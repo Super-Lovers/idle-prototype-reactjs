@@ -1,16 +1,25 @@
 const milestones = {
 	milestones: [
 		{
-			title: 'Milestone 1',
-			icon: 'user',
+			title: 'TODO app',
+			icon: '📝',
+			icon_alt: '',
+			unlocked: false,
+			lines_of_code: 500,
 		},
 		{
-			title: 'Milestone 2',
-			icon: 'user',
+			title: 'Pomodoro app',
+			icon: '🍅',
+			icon_alt: '',
+			unlocked: false,
+			lines_of_code: 1500,
 		},
 		{
-			title: 'Milestone 3',
-			icon: 'user',
+			title: 'git CLI',
+			icon: '',
+			icon_alt: 'terminal',
+			unlocked: false,
+			lines_of_code: 5000,
 		},
 	]
 }
