@@ -15,7 +15,7 @@ class Programmer extends React.Component {
 						<br/>
 							{/*TODO: Add total lines of code being added from the upgrades */}
 							{this.props.lines_of_code}
-							<p className='total_lines_added'> +({this.props.lines_of_code_per_second} LoC/s)</p>
+							<p className='total_lines_added'> +({this.props.lines_of_code_per_second.toFixed(2)} LoC/s)</p>
 						</span>
 						<p className='lines_of_code_label'> lines of code written..</p>
 					</div>

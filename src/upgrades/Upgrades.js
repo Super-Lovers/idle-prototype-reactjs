@@ -22,6 +22,7 @@ class Upgrades extends React.Component {
 				visible={upgrade.visible}
 				unlockUpgrade={this.unlockUpgrade}
 				quantity={upgrade.quantity}
+				max_quantity={upgrade.max_quantity}
 			/>
 		));
 
@@ -42,6 +43,14 @@ class Upgrades extends React.Component {
 
 		const upgrades = this.state.upgrades.map((state_upgrade) => {
 			counter++;
+
+			if (state_upgrade.max_quantity <= upgrade.props.quantity) {
+				if (state_upgrade.quantity > 0) {
+					total_lines_of_code_per_second += parseFloat(state_upgrade.output_properties.current_increment);
+				}
+				
+				return state_upgrade;
+			}
 
 			if (state_upgrade.title === upgrade.props.title &&
 				state_upgrade.price_properties.current_price <= this.props.data.lines_of_code) {
@@ -99,8 +108,14 @@ class Upgrades extends React.Component {
 
 		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
 		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
+		// console.log(index + " < " + upgrades.length);
+		// console.log(upgrades[index - 1].max_quantity === upgrades[index - 1].quantity);
+		// console.log(upgrades[index = 1].quantity >= 3);
+		// console.log(upgrades[index].visible === false);
+		console.log(upgrades[index - 1]);
 		if (index < upgrades.length &&
-			upgrades[index - 1].quantity >= 3 &&
+			(upgrades[index - 1].quantity === upgrades[index - 1].max_quantity ||
+			upgrades[index - 1].quantity >= 3) &&
 			upgrades[index].visible === false) {
 				
 			upgrades[index].visible = true;
@@ -119,7 +134,7 @@ class Upgrade extends React.Component {
 		const current_increment =
 			this.props.quantity > 0 ? this.props.output_properties.current_increment : 0;
 
-		if (this.props.visible) {
+		if (this.props.visible && this.props.quantity < this.props.max_quantity) {
 			return (
 				<div className='column upgrade'>
 					<div className='ui segment'>
@@ -132,6 +147,30 @@ class Upgrade extends React.Component {
 					<button
 						className={`fluid ui inverted ${this.props.color} button`}
 						onClick={this.handleUnlockUpgrade}
+						>
+						<i className='icon'>{this.props.icon}</i>
+						{this.props.title}
+						<span className='increment'> +({current_increment})</span>
+					</button>
+					<div className="ui inverted divider"></div>
+				</div>
+			);
+		} else if (this.props.visible && this.props.quantity === this.props.max_quantity) {
+			return (
+				<div className='column upgrade'>
+					<div className='ui segment inverted yellow'>
+						<b><i className='icon exclamation'></i>Out of Stock</b>
+					</div>
+					<div className='ui segment'>
+						<p className='price'>
+							<FontAwesomeIcon icon='code'/>
+							<span> {this.props.price_properties.current_price}</span>
+							<span> <b>(tier {this.props.quantity})</b></span>
+						</p>
+					</div>
+					<button
+						className={`fluid ui inverted ${this.props.color} button disabled`}
+						// onClick={this.handleUnlockUpgrade}
 						>
 						<i className='icon'>{this.props.icon}</i>
 						{this.props.title}

@@ -12,7 +12,7 @@ import Upgrades from '../upgrades/Upgrades';
 class App extends React.Component {
 	state = {
 		'characters_of_code': 0,
-		'lines_of_code': 1000,
+		'lines_of_code': 100000,
 		'lines_of_code_per_second': 0
 	};
 
