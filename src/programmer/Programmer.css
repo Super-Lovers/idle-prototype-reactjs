@@ -1,0 +1,16 @@
+.programmer.divided {
+	border-left: none;
+}
+
+.programmer > .ui.row.one.column {
+	text-align: center;
+	box-shadow: none;
+}
+
+.lines_of_code_number {
+	font-size: 2.5em;
+}
+
+.lines_of_code_label {
+	font-size: 1.5em;
+}
