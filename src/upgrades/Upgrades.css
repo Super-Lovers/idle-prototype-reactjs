@@ -1,3 +1,28 @@
 .upgrade:last-of-type > .divider {
 	display: none;
 }
+
+.increment {
+	color: #000000;
+}
+
+.upgrade > button.ui.button {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.upgrade > .ui.segment {
+	background: #000000;
+	color: #ffffff;
+	box-shadow: none;
+	margin: 0;
+	padding: 0.2em 0.2em;
+	border-bottom: 0;
+	text-align: center;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.upgrade > .ui.segment > .price > svg {
+	margin: 0 5px;
+}

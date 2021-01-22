@@ -13,7 +13,7 @@ const upgrades = {
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -31,12 +31,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -54,12 +54,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -77,12 +77,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -100,12 +100,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -123,12 +123,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -146,12 +146,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -169,12 +169,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -192,12 +192,12 @@ const upgrades = {
 				lines_of_code: 1000,
 			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,
@@ -211,16 +211,13 @@ const upgrades = {
 			title: 'Mom\'s Mashed Potatoes',
 			icon: '🥔',
 			color: 'pink',
-			requirements: {
-				lines_of_code: 1000,
-			},
 			unlocked: false,
-			visible: true,
+			visible: false,
 			quantity: 0,
 			price_properties: {
 				multiplier: 1.15,
 				base_price: 100,
-				current_price: 115
+				current_price: 0
 			},
 			output_properties: {
 				multiplier: 1.1,

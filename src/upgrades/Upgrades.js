@@ -2,7 +2,7 @@
 import React from 'react';
 import upgrades from './upgrades_seed copy';
 import uuid from 'react-uuid';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Source code
 import './Upgrades.css';
@@ -16,6 +16,8 @@ class Upgrades extends React.Component {
 				key={uuid()}
 				icon={upgrade.icon}
 				color={upgrade.color}
+				price_properties={upgrade.price_properties}
+				output_properties={upgrade.output_properties}
 				title={upgrade.title}
 				visible={upgrade.visible}
 				unlockUpgrade={this.unlockUpgrade}
@@ -34,9 +36,39 @@ class Upgrades extends React.Component {
 	};
 
 	unlockUpgrade = (upgrade) => {
+		let index, counter = 0;
+
 		const upgrades = this.state.upgrades.map((state_upgrade) => {
+			counter++;
 			if (state_upgrade.title === upgrade.props.title &&
-				state_upgrade.requirements.lines_of_code <= this.props.data.lines_of_code) {
+				state_upgrade.price_properties.current_price <= this.props.data.lines_of_code) {
+
+				index = counter;
+
+				state_upgrade.quantity++;
+
+				// Updating price properties based on new tier (quantity)
+				// ==============================
+				const base_price = state_upgrade.price_properties.base_price;
+				const cost_multiplier = state_upgrade.price_properties.multiplier;
+				const quantity = state_upgrade.quantity;
+
+				state_upgrade.price_properties.current_price =
+					Math.ceil(base_price * Math.pow(cost_multiplier, quantity));
+				
+				// Updating output properties based on new tier (quantity)
+				// ==============================
+				const output_base_multiplier = state_upgrade.output_properties.multiplier;
+				const base_increment = state_upgrade.output_properties.base_increment;
+				const base_output = state_upgrade.output_properties.base_output;
+				let current_multiplier = state_upgrade.output_properties.current_multiplier;
+
+				state_upgrade.output_properties.current_multiplier = current_multiplier =
+					quantity * (base_increment * base_output);
+
+				state_upgrade.output_properties.current_increment =
+					(quantity * (output_base_multiplier * current_multiplier)).toFixed(2);
+
 				return Object.assign({}, state_upgrade, {
 					unlocked: true
 				});
@@ -44,6 +76,10 @@ class Upgrades extends React.Component {
 				return state_upgrade;
 			}
 		});
+
+		if (upgrades[index].visible === false) {
+			upgrades[index].visible = true;
+		}
 
 		this.setState({upgrades});
 	};
@@ -54,12 +90,20 @@ class Upgrade extends React.Component {
 		if (this.props.visible) {
 			return (
 				<div className='column upgrade'>
+					<div className='ui segment'>
+					<p className='price'>
+						<FontAwesomeIcon icon='code'/>
+						<span> {this.props.price_properties.current_price}</span>
+						<span> <b>(tier {this.props.quantity})</b></span>
+					</p>
+					</div>
 					<button
 						className={`fluid ui inverted ${this.props.color} button`}
 						onClick={this.handleUnlockUpgrade}
 						>
 						<i className='icon'>{this.props.icon}</i>
 						{this.props.title}
+						<span className='increment'> +({this.props.output_properties.current_increment})</span>
 					</button>
 					<div className="ui inverted divider"></div>
 				</div>
