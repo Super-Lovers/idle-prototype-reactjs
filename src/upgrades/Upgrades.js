@@ -1,50 +1,25 @@
 // Dependancies
 import React from 'react';
-import upgrades from './upgrades_seed copy';
+import { useState } from 'react';
+import upgrades_seed from './upgrades_seed copy';
 import uuid from 'react-uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Source code
 import './Upgrades.css';
 
-class Upgrades extends React.Component {
-	state = upgrades;
+const Upgrades = (props) => {
+	const [upgrades, setUpgrades] = useState(upgrades_seed.upgrades);
 
-	render() {
-		const upgrades = this.state.upgrades.map((upgrade) => (
-			<Upgrade
-				key={uuid()}
-				icon={upgrade.icon}
-				color={upgrade.color}
-				price_properties={upgrade.price_properties}
-				output_properties={upgrade.output_properties}
-				title={upgrade.title}
-				visible={upgrade.visible}
-				unlockUpgrade={this.unlockUpgrade}
-				quantity={upgrade.quantity}
-				max_quantity={upgrade.max_quantity}
-			/>
-		));
-
-		return (
-			<div className='upgrades row ui vertically grid'>
-				<h2>Upgrades</h2>
-				<div className='one column row'>
-					{upgrades}
-				</div>
-			</div>
-		);
-	};
-
-	unlockUpgrade = (upgrade) => {
+	const unlockUpgrade = (upgrade) => {
 		let index, counter = 0;
 		let canPurchase = false;
 		let total_lines_of_code_per_second = 0;
 
-		const upgrades = this.state.upgrades.map((state_upgrade) => {
+		const new_upgrades = upgrades.map((state_upgrade) => {
 			counter++;
 
-			if (state_upgrade.max_quantity <= upgrade.props.quantity) {
+			if (state_upgrade.max_quantity <= upgrade.quantity) {
 				if (state_upgrade.quantity > 0) {
 					total_lines_of_code_per_second += parseFloat(state_upgrade.output_properties.current_increment);
 				}
@@ -52,8 +27,8 @@ class Upgrades extends React.Component {
 				return state_upgrade;
 			}
 
-			if (state_upgrade.title === upgrade.props.title &&
-				state_upgrade.price_properties.current_price <= this.props.data.lines_of_code) {
+			if (state_upgrade.title === upgrade.title &&
+				state_upgrade.price_properties.current_price <= props.lines_of_code) {
 				canPurchase = true;
 				index = counter;
 
@@ -67,7 +42,7 @@ class Upgrades extends React.Component {
 
 				// First we take lines of code from the user
 				// before updating the cost of the upgrade
-				this.handleDecrementCode(state_upgrade.price_properties.current_price);
+				handleDecrementCode(state_upgrade.price_properties.current_price);
 
 				state_upgrade.price_properties.current_price =
 					Math.ceil(base_price * Math.pow(cost_multiplier, quantity));
@@ -104,91 +79,113 @@ class Upgrades extends React.Component {
 		// TODO: Make a pop-up to indicate why the purchase failed
 		if (canPurchase === false) { return; }
 
-		this.props.handleUpdateLinesOfCodePerSecond(total_lines_of_code_per_second);
+		props.handleUpdateLinesOfCodePerSecond(total_lines_of_code_per_second);
 
 		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
 		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
-		if (index < upgrades.length &&
-			(upgrades[index - 1].quantity === upgrades[index - 1].max_quantity ||
-			upgrades[index - 1].quantity >= 3) &&
-			upgrades[index].visible === false) {
+		if (index < new_upgrades.length &&
+			(new_upgrades[index - 1].quantity === new_upgrades[index - 1].max_quantity ||
+				new_upgrades[index - 1].quantity >= 3) &&
+			new_upgrades[index].visible === false) {
 				
-			upgrades[index].visible = true;
+				new_upgrades[index].visible = true;
 		}
 
-		this.setState({upgrades});
+		setUpgrades(new_upgrades);
 	};
 
-	handleDecrementCode = (arg) => {
-		this.props.handleClickDecrementCode(arg);
+	const new_upgrades = upgrades.map((upgrade) => (
+		<Upgrade
+			key={uuid()}
+			icon={upgrade.icon}
+			color={upgrade.color}
+			price_properties={upgrade.price_properties}
+			output_properties={upgrade.output_properties}
+			title={upgrade.title}
+			visible={upgrade.visible}
+			unlockUpgrade={unlockUpgrade}
+			quantity={upgrade.quantity}
+			max_quantity={upgrade.max_quantity}
+		/>
+	));
+
+	const handleDecrementCode = (arg) => {
+		props.handleClickDecrementCode(arg);
 	}
+
+	return (
+		<div className='upgrades row ui vertically grid'>
+			<h2>Upgrades</h2>
+			<div className='one column row'>
+				{new_upgrades}
+			</div>
+		</div>
+	);
 }
 
-class Upgrade extends React.Component {	
-	render() {
-		const current_increment =
-			this.props.quantity > 0 ? this.props.output_properties.current_increment : 0;
-
-		if (this.props.visible && this.props.quantity < this.props.max_quantity) {
-			return (
-				<div className='column upgrade'>
-					<div className='ui segment'>
-						<p className='price'>
-							<FontAwesomeIcon icon='code'/>
-							<span> {this.props.price_properties.current_price}</span>
-							<span> <b>(tier {this.props.quantity})</b></span>
-						</p>
-					</div>
-					<button
-						className={`fluid ui inverted ${this.props.color} button`}
-						onClick={this.handleUnlockUpgrade}
-						>
-						<i className='icon'>{this.props.icon}</i>
-						{this.props.title}
-						<span className='increment'> +({current_increment})</span>
-					</button>
-					<div className="ui inverted divider"></div>
-				</div>
-			);
-		} else if (this.props.visible && this.props.quantity === this.props.max_quantity) {
-			return (
-				<div className='column upgrade'>
-					<div className='ui segment inverted yellow'>
-						<b><i className='icon exclamation'></i>Out of Stock</b>
-					</div>
-					<div className='ui segment'>
-						<p className='price'>
-							<FontAwesomeIcon icon='code'/>
-							<span> {this.props.price_properties.current_price}</span>
-							<span> <b>(tier {this.props.quantity})</b></span>
-						</p>
-					</div>
-					<button
-						className={`fluid ui inverted ${this.props.color} button disabled`}
-						// onClick={this.handleUnlockUpgrade}
-						>
-						<i className='icon'>{this.props.icon}</i>
-						{this.props.title}
-						<span className='increment'> +({current_increment})</span>
-					</button>
-					<div className="ui inverted divider"></div>
-				</div>
-			);
-		} else {
-			return (
-				<div className='column upgrade'>
-					<button disabled className="fluid ui black button">
-						<i className='icon lock'></i>
-						Locked
-					</button>
-					<div className="ui inverted divider"></div>
-				</div>
-			);
-		}
+const Upgrade = (props) => {
+	const handleUnlockUpgrade = () => {
+		props.unlockUpgrade(props);
 	}
 
-	handleUnlockUpgrade = () => {
-		this.props.unlockUpgrade(this);
+	const current_increment =
+		props.quantity > 0 ? props.output_properties.current_increment : 0;
+
+	if (props.visible && props.quantity < props.max_quantity) {
+		return (
+			<div className='column upgrade'>
+				<div className='ui segment'>
+					<p className='price'>
+						<FontAwesomeIcon icon='code'/>
+						<span> {props.price_properties.current_price}</span>
+						<span> <b>(tier {props.quantity})</b></span>
+					</p>
+				</div>
+				<button
+					className={`fluid ui inverted ${props.color} button`}
+					onClick={handleUnlockUpgrade}
+					>
+					<i className='icon'>{props.icon}</i>
+					{props.title}
+					<span className='increment'> +({current_increment})</span>
+				</button>
+				<div className="ui inverted divider"></div>
+			</div>
+		);
+	} else if (props.visible && props.quantity === props.max_quantity) {
+		return (
+			<div className='column upgrade'>
+				<div className='ui segment inverted yellow'>
+					<b><i className='icon exclamation'></i>Out of Stock</b>
+				</div>
+				<div className='ui segment'>
+					<p className='price'>
+						<FontAwesomeIcon icon='code'/>
+						<span> {props.price_properties.current_price}</span>
+						<span> <b>(tier {props.quantity})</b></span>
+					</p>
+				</div>
+				<button
+					className={`fluid ui inverted ${props.color} button disabled`}
+					// onClick={handleUnlockUpgrade}
+					>
+					<i className='icon'>{props.icon}</i>
+					{props.title}
+					<span className='increment'> +({current_increment})</span>
+				</button>
+				<div className="ui inverted divider"></div>
+			</div>
+		);
+	} else {
+		return (
+			<div className='column upgrade'>
+				<button disabled className="fluid ui black button">
+					<i className='icon lock'></i>
+					Locked
+				</button>
+				<div className="ui inverted divider"></div>
+			</div>
+		);
 	}
 }
 
