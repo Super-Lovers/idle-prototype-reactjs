@@ -92,8 +92,10 @@ const Upgrades = (props) => {
 		}
 
 		setUpgrades(new_upgrades);
+		updateUpdates();
 	};
 
+	let index = 0;
 	const new_upgrades = upgrades.map((upgrade) => (
 		<Upgrade
 			key={uuid()}
@@ -106,8 +108,14 @@ const Upgrades = (props) => {
 			unlockUpgrade={unlockUpgrade}
 			quantity={upgrade.quantity}
 			max_quantity={upgrade.max_quantity}
+			handleClickIncrementCode={props.handleClickIncrementCode}
+			index={++index}
 		/>
 	));
+
+	const updateUpdates = () => {
+		props.handleFetchUpgrades(upgrades);
+	}
 
 	const handleDecrementCode = (arg) => {
 		props.handleClickDecrementCode(arg);
