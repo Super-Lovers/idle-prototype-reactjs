@@ -13,7 +13,7 @@ import Milestones from '../milestones/Milestones';
 import Upgrades from '../upgrades/Upgrades';
 
 const App = (props) => {
-	const [lines_of_code, setLinesOfCode] = useState(10000);
+	const [lines_of_code, setLinesOfCode] = useState(0);
 	const [lines_of_code_per_second, setLinesOfCodePerSecond] = useState(0);
 	const [upgrades, refreshUpgrades] = useState([]);
 
@@ -40,7 +40,6 @@ const App = (props) => {
 	}
 
 	useInterval(() => {
-		console.log(upgrades);
 		if (upgrades.length > 0) {
 			let total_lines_of_code_written = 0;
 			for (let i = 0; i < upgrades.length; i++) {
@@ -50,10 +49,9 @@ const App = (props) => {
 				}
 			}
 	
-			console.log(total_lines_of_code_written);
 			incrementLinesOfCode(total_lines_of_code_written);
 		}
-	}, 1000);
+	}, 300);
 
 	return (
 		<CodeContext.Provider value={{
@@ -68,13 +66,7 @@ const App = (props) => {
 			<div className='app ui vertically divided grid container'>
 				<Programmer/>
 				<Milestones/>
-				<Upgrades
-					// lines_of_code={lines_of_code}
-					// handleClickDecrementCode={decrementCode}
-					// handleUpdateLinesOfCodePerSecond={updateLinesOfCodePerSecond}
-					// handleClickIncrementCode={clickIncrementCode}
-					// handleFetchUpgrades={fetchUpgrades}
-				/>
+				<Upgrades/>
 			</div>
 		</CodeContext.Provider>
 	);

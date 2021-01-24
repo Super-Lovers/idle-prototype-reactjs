@@ -149,7 +149,7 @@ const Upgrade = (props) => {
 					</p>
 				</div>
 				<button
-					className={`fluid ui inverted ${props.color} button`}
+					className={`fluid ui basic ${props.color} button`}
 					onClick={handleUnlockUpgrade}
 					>
 					<i className='icon'>{props.icon}</i>
@@ -173,7 +173,7 @@ const Upgrade = (props) => {
 					</p>
 				</div>
 				<button
-					className={`fluid ui inverted ${props.color} button disabled`}
+					className={`fluid ui basic ${props.color} button disabled`}
 					// onClick={handleUnlockUpgrade}
 					>
 					<i className='icon'>{props.icon}</i>
