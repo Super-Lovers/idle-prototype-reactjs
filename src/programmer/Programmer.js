@@ -8,27 +8,30 @@ import './Programmer.css';
 
 const Programmer = (props) => {
 	const {
+		total_lines_of_code,
 		lines_of_code,
 		lines_of_code_per_second,
-		incrementLinesOfCode,
+		incrementLinesOfCodeOnClick,
 	} = useContext(CodeContext);
 
 	const handleClick = () => {
-		incrementLinesOfCode(1);
+		incrementLinesOfCodeOnClick();
 	};
 
 	return (
-		<div className='programmer row ui vertically divided grid'>
+		<div className='programmer seven wide column ui vertically divided grid'>
 			<h2>Programmer</h2>
 			<div className='ui row one column'>
 				<div className='ui column centered lines_of_code'>
 					<span className='lines_of_code_number'>
-					<br/>
+						<br/>
+						
+						<p className='total_lines_of_code_label'>{total_lines_of_code}<br/> total lines written ..</p>
 						{/*TODO: Add total lines of code being added from the upgrades */}
 						{lines_of_code}
-						<p className='total_lines_added'> +({lines_of_code_per_second.toFixed(2)} LoC/s)</p>
+						<p className='total_lines_added'> +({(lines_of_code_per_second * 3).toFixed(2)} LoC/s)</p>
+						new lines of code ..
 					</span>
-					<p className='lines_of_code_label'> lines of code written..</p>
 				</div>
 				<div className='ui column'>
 					<img 

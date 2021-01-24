@@ -13,16 +13,29 @@ import Milestones from '../milestones/Milestones';
 import Upgrades from '../upgrades/Upgrades';
 
 const App = (props) => {
-	const [lines_of_code, setLinesOfCode] = useState(0);
+	const [total_lines_of_code, setTotalLinesOfCode] = useState(499.9);
+	const [lines_of_code, setLinesOfCode] = useState(499.9);
 	const [lines_of_code_per_second, setLinesOfCodePerSecond] = useState(0);
 	const [upgrades, refreshUpgrades] = useState([]);
 
 	// Functions triggered automatically periodically or through a tap/click
 	// ==============================
+	const incrementLinesOfCodeOnClick = () => {
+		if (upgrades.length > 0) {
+			incrementLinesOfCode(getTotalLinesOfCodeWritten());
+		}
+	}
 	const incrementLinesOfCode = (increment) => {
-		setLinesOfCode(parseFloat(
+		let new_current_code = parseFloat(
 			(lines_of_code + parseFloat(increment)).toFixed(2)
-		));
+		);
+
+		let new_total_code = parseFloat(
+			(total_lines_of_code + parseFloat(increment)).toFixed(2)
+		);
+
+		setLinesOfCode(new_current_code);
+		setTotalLinesOfCode(new_total_code);
 	}
 
 	const decrementLinesOfCode = (decrement) => {
@@ -41,31 +54,36 @@ const App = (props) => {
 
 	useInterval(() => {
 		if (upgrades.length > 0) {
-			let total_lines_of_code_written = 0;
-			for (let i = 0; i < upgrades.length; i++) {
-				const upgrade = upgrades[i];
-				if (upgrade.quantity > 0) {
-					total_lines_of_code_written += parseFloat(upgrade.output_properties.current_increment);
-				}
-			}
-	
-			incrementLinesOfCode(total_lines_of_code_written);
+			incrementLinesOfCode(getTotalLinesOfCodeWritten());
 		}
-	}, 300);
+	}, 333);
+
+	const getTotalLinesOfCodeWritten = () => {
+		let total_lines_of_code_written = 0;
+		for (let i = 0; i < upgrades.length; i++) {
+			const upgrade = upgrades[i];
+			if (upgrade.quantity > 0) {
+				total_lines_of_code_written += parseFloat(upgrade.output_properties.current_increment);
+			}
+		}
+
+		return total_lines_of_code_written
+	}
 
 	return (
 		<CodeContext.Provider value={{
+					total_lines_of_code,
 					lines_of_code,
 					lines_of_code_per_second,
-					incrementLinesOfCode,
+					incrementLinesOfCodeOnClick,
 					decrementLinesOfCode,
 					updateLinesOfCodePerSecond,
 					fetchUpgrades,
 				}
 			}>
-			<div className='app ui vertically divided grid container'>
-				<Programmer/>
+			<div className='app ui grid container'>
 				<Milestones/>
+				<Programmer/>
 				<Upgrades/>
 			</div>
 		</CodeContext.Provider>

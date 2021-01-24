@@ -1,4 +1,19 @@
 .programmer {
-	width: 300px;
+	width: 350px;
 	/* TODO: add pointer cursor when hovering */
+}
+
+.milestone, .upgrade {
+	margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.milestones > .row, .upgrades > .row {
+	padding-top: 0 !important;
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+h2 {
+	text-align: center;
 }

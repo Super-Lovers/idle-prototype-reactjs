@@ -28,6 +28,20 @@ const milestones = {
 			unlocked: false,
 			lines_of_code: 5000,
 		},
+		{
+			title: 'Programmer Idle Clicker',
+			icon: '🐱‍💻',
+			icon_alt: 'terminal',
+			unlocked: false,
+			lines_of_code: 5000,
+		},
+		{
+			title: 'Programmer Idle Clicker',
+			icon: '🐱‍💻',
+			icon_alt: 'terminal',
+			unlocked: false,
+			lines_of_code: 5000,
+		},
 	]
 }
 

@@ -121,7 +121,7 @@ const Upgrades = (props) => {
 	));
 
 	return (
-		<div className='upgrades row ui vertically grid'>
+		<div className='upgrades five wide column ui vertically divided grid'>
 			<h2>Upgrades</h2>
 			<div className='one column row'>
 				{new_upgrades}

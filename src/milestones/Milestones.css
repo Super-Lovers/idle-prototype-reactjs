@@ -10,3 +10,7 @@
 .milestone > .segment > i:nth-child(odd) {
 	color: #A0A0A0;
 }
+
+.ui.grid>.milestones.ui.grid:first-child {
+	padding-top: 2rem;
+}

@@ -11,8 +11,29 @@ import { CodeContext } from '../contexts/code_context';
 
 const Milestones = (props) => {
 	const [seed] = useState(milestones_seed);
+	const [milestones, setMilestones] = useState(seed.milestones);
 
-	const milestones = seed.milestones.map((milestone) => (
+	const unlockMilestone = (milestone) => {
+		const new_milestones = milestones.map((temp_milestone) => {
+			if (milestone.title === temp_milestone.title &&
+				temp_milestone.unlocked === false) {
+
+				return Object.assign({}, milestone, {
+					unlocked: true
+				});
+			} else {
+				return temp_milestone;
+			}
+		});
+
+		setMilestones(new_milestones);
+	};
+
+	const handleUnlockMilestone = (milestone) => {
+		unlockMilestone(milestone);
+	}
+
+	const milestones_view = milestones.map((milestone) => (
 		<Milestone
 			key={uuid()}
 			title={milestone.title}
@@ -20,21 +41,22 @@ const Milestones = (props) => {
 			icon_alt={milestone.icon_alt}
 			unlocked={milestone.unlocked}
 			lines_of_code={milestone.lines_of_code}
+			unlockMilestone={handleUnlockMilestone}
 		/>
 	));
 
 	return (
-		<div className='milestones row ui vertically grid'>
+		<div className='milestones five wide column ui vertically divided grid'>
 			<h2>Milestones</h2>
 			<div className='one column row'>
-				{milestones}
+				{milestones_view}
 			</div>
 		</div>
 	);
 }
 
 const Milestone = (props) => {
-	const { lines_of_code } = useContext(CodeContext);
+	const { total_lines_of_code } = useContext(CodeContext);
 
 	let icon_output;
 
@@ -44,7 +66,10 @@ const Milestone = (props) => {
 		icon_output = <i className='icon'>{props.icon}</i>;
 	}
 
-	if (props.lines_of_code <= lines_of_code) {
+	if (props.lines_of_code <= total_lines_of_code &&
+		props.unlocked === false) {
+		// props.unlockMilestone(props);
+
 		return (
 			<div className='column milestone piled segment'>
 				<div className="fluid ui segment">
