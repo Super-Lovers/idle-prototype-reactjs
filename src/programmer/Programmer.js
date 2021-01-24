@@ -1,12 +1,20 @@
 // Dependancies
 import React from 'react';
+import { useContext } from 'react';
+import { CodeContext } from '../contexts/code_context';
 
 // Source code
 import './Programmer.css';
 
 const Programmer = (props) => {
+	const {
+		lines_of_code,
+		lines_of_code_per_second,
+		incrementLinesOfCode,
+	} = useContext(CodeContext);
+
 	const handleClick = () => {
-		props.handleClickIncrementCode(1);
+		incrementLinesOfCode(1);
 	};
 
 	return (
@@ -17,8 +25,8 @@ const Programmer = (props) => {
 					<span className='lines_of_code_number'>
 					<br/>
 						{/*TODO: Add total lines of code being added from the upgrades */}
-						{props.lines_of_code}
-						<p className='total_lines_added'> +({props.lines_of_code_per_second.toFixed(2)} LoC/s)</p>
+						{lines_of_code}
+						<p className='total_lines_added'> +({lines_of_code_per_second.toFixed(2)} LoC/s)</p>
 					</span>
 					<p className='lines_of_code_label'> lines of code written..</p>
 				</div>

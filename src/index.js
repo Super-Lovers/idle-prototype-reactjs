@@ -13,7 +13,6 @@ import './index.css';
 
 // Source code
 import App from './app/App';
-import Programmer from './programmer/Programmer';
 
 library.add(fab, faCode);
 // Performance & optimization
@@ -21,9 +20,7 @@ library.add(fab, faCode);
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App>
-			<Programmer />
-		</App>
+		<App></App>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

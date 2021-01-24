@@ -1,11 +1,13 @@
 // Dependancies
 import React from 'react';
 import { useState } from 'react';
+import { useContext } from 'react';
 import milestones_seed from './milestones_seed';
 import uuid from 'react-uuid';
 
 // Source code
 import './Milestones.css';
+import { CodeContext } from '../contexts/code_context';
 
 const Milestones = (props) => {
 	const [seed] = useState(milestones_seed);
@@ -18,7 +20,6 @@ const Milestones = (props) => {
 			icon_alt={milestone.icon_alt}
 			unlocked={milestone.unlocked}
 			lines_of_code={milestone.lines_of_code}
-			programmer_lines_of_code={props.lines_of_code}
 		/>
 	));
 
@@ -33,6 +34,8 @@ const Milestones = (props) => {
 }
 
 const Milestone = (props) => {
+	const { lines_of_code } = useContext(CodeContext);
+
 	let icon_output;
 
 	if (props.icon === '') {
@@ -41,7 +44,7 @@ const Milestone = (props) => {
 		icon_output = <i className='icon'>{props.icon}</i>;
 	}
 
-	if (props.lines_of_code <= props.programmer_lines_of_code) {
+	if (props.lines_of_code <= lines_of_code) {
 		return (
 			<div className='column milestone piled segment'>
 				<div className="fluid ui segment">

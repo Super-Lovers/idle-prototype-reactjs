@@ -1,15 +1,23 @@
 // Dependancies
 import React from 'react';
 import { useState } from 'react';
+import { useContext } from 'react';
 import upgrades_seed from './upgrades_seed copy';
 import uuid from 'react-uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Source code
 import './Upgrades.css';
+import { CodeContext } from '../contexts/code_context';
 
 const Upgrades = (props) => {
 	const [upgrades, setUpgrades] = useState(upgrades_seed.upgrades);
+
+	const {
+		lines_of_code,
+		updateLinesOfCodePerSecond,
+		fetchUpgrades,
+		decrementLinesOfCode } = useContext(CodeContext);
 
 	const unlockUpgrade = (upgrade) => {
 		let index, counter = 0;
@@ -28,7 +36,7 @@ const Upgrades = (props) => {
 			}
 
 			if (state_upgrade.title === upgrade.title &&
-				state_upgrade.price_properties.current_price <= props.lines_of_code) {
+				state_upgrade.price_properties.current_price <= lines_of_code) {
 				canPurchase = true;
 				index = counter;
 
@@ -42,7 +50,7 @@ const Upgrades = (props) => {
 
 				// First we take lines of code from the user
 				// before updating the cost of the upgrade
-				handleDecrementCode(state_upgrade.price_properties.current_price);
+				decrementLinesOfCode(state_upgrade.price_properties.current_price);
 
 				state_upgrade.price_properties.current_price =
 					Math.ceil(base_price * Math.pow(cost_multiplier, quantity));
@@ -79,7 +87,7 @@ const Upgrades = (props) => {
 		// TODO: Make a pop-up to indicate why the purchase failed
 		if (canPurchase === false) { return; }
 
-		props.handleUpdateLinesOfCodePerSecond(total_lines_of_code_per_second);
+		updateLinesOfCodePerSecond(total_lines_of_code_per_second);
 
 		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
 		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
@@ -92,7 +100,7 @@ const Upgrades = (props) => {
 		}
 
 		setUpgrades(new_upgrades);
-		updateUpdates();
+		fetchUpgrades(new_upgrades);
 	};
 
 	let index = 0;
@@ -108,18 +116,9 @@ const Upgrades = (props) => {
 			unlockUpgrade={unlockUpgrade}
 			quantity={upgrade.quantity}
 			max_quantity={upgrade.max_quantity}
-			handleClickIncrementCode={props.handleClickIncrementCode}
 			index={++index}
 		/>
 	));
-
-	const updateUpdates = () => {
-		props.handleFetchUpgrades(upgrades);
-	}
-
-	const handleDecrementCode = (arg) => {
-		props.handleClickDecrementCode(arg);
-	}
 
 	return (
 		<div className='upgrades row ui vertically grid'>
