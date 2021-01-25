@@ -2,6 +2,7 @@ const milestones = {
 	milestones: [
 		{
 			title: 'TODO app',
+			description: "You\'ve written enough code similar to that of a small TODO application, congrats!",
 			icon: '📝',
 			icon_alt: '',
 			unlocked: false,
@@ -9,6 +10,7 @@ const milestones = {
 		},
 		{
 			title: 'Pomodoro app',
+			description: 'this is a description',
 			icon: '🍅',
 			icon_alt: '',
 			unlocked: false,
@@ -16,6 +18,7 @@ const milestones = {
 		},
 		{
 			title: 'git CLI',
+			description: 'this is a description',
 			icon: '',
 			icon_alt: 'terminal',
 			unlocked: false,
@@ -23,6 +26,7 @@ const milestones = {
 		},
 		{
 			title: 'Programmer Idle Clicker',
+			description: 'this is a description',
 			icon: '🐱‍💻',
 			icon_alt: 'terminal',
 			unlocked: false,
@@ -30,6 +34,7 @@ const milestones = {
 		},
 		{
 			title: 'Programmer Idle Clicker',
+			description: 'this is a description',
 			icon: '🐱‍💻',
 			icon_alt: 'terminal',
 			unlocked: false,
@@ -37,6 +42,7 @@ const milestones = {
 		},
 		{
 			title: 'Programmer Idle Clicker',
+			description: 'this is a description',
 			icon: '🐱‍💻',
 			icon_alt: 'terminal',
 			unlocked: false,

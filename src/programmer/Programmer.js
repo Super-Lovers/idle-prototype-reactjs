@@ -25,9 +25,7 @@ const Programmer = (props) => {
 				<div className='ui column centered lines_of_code'>
 					<span className='lines_of_code_number'>
 						<br/>
-						
 						<p className='total_lines_of_code_label'>{total_lines_of_code}<br/> total lines written ..</p>
-						{/*TODO: Add total lines of code being added from the upgrades */}
 						{lines_of_code}
 						<p className='total_lines_added'> +({(lines_of_code_per_second * 3).toFixed(2)} LoC/s)</p>
 						new lines of code ..

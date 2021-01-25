@@ -11,6 +11,7 @@ import { CodeContext } from '../contexts/code_context';
 import Programmer from '../programmer/Programmer';
 import Milestones from '../milestones/Milestones';
 import Upgrades from '../upgrades/Upgrades';
+import Notifications from '../milestones/notification/Notifications';
 
 const App = (props) => {
 	const [total_lines_of_code, setTotalLinesOfCode] = useState(499.9);
@@ -86,6 +87,7 @@ const App = (props) => {
 				<Programmer/>
 				<Upgrades/>
 			</div>
+			<Notifications/>
 		</CodeContext.Provider>
 	);
 };
