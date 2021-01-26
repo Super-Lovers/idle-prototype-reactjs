@@ -14,19 +14,35 @@ import Upgrades from '../upgrades/Upgrades';
 import Notifications from '../milestones/notification/Notifications';
 
 const App = (props) => {
-	const [total_lines_of_code, setTotalLinesOfCode] = useState(499.9);
-	const [lines_of_code, setLinesOfCode] = useState(499.9);
+	// State
+	const starting_lines_of_code = 114;
+	const [total_lines_of_code, setTotalLinesOfCode] = useState(starting_lines_of_code);
+	const [lines_of_code, setLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code_per_second, setLinesOfCodePerSecond] = useState(0);
 	const [upgrades, refreshUpgrades] = useState([]);
+
+	// Audio
+	const background_keyboard_sounds = new Audio('./audio/computer-keyboard.mp3');
+
+	const playAudio = () => {
+		background_keyboard_sounds.play();
+		background_keyboard_sounds.loop = true;
+		background_keyboard_sounds.volume = 0.2;
+	}
 
 	// Functions triggered automatically periodically or through a tap/click
 	// ==============================
 	const incrementLinesOfCodeOnClick = () => {
 		if (upgrades.length > 0) {
-			incrementLinesOfCode(getTotalLinesOfCodeWritten());
+			incrementLinesOfCode(getTotalLinesOfCodeWritten() * 1.1);
 		}
 	}
+
 	const incrementLinesOfCode = (increment) => {
+		if (total_lines_of_code === starting_lines_of_code) {
+			playAudio();
+		}
+
 		let new_current_code = parseFloat(
 			(lines_of_code + parseFloat(increment)).toFixed(2)
 		);

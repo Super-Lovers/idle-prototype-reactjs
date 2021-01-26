@@ -1,5 +1,5 @@
 // Dependancies
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useContext } from 'react';
 import milestones_seed from './milestones_seed';
@@ -10,15 +10,14 @@ import './Milestones.css';
 import { CodeContext } from '../contexts/code_context';
 
 const Milestones = (props) => {
-	const [seed] = useState(milestones_seed);
-	const [milestones, setMilestones] = useState(seed.milestones);
+	const [milestones, setMilestones] = useState(milestones_seed.milestones);
 
 	const unlockMilestone = (milestone) => {
 		const new_milestones = milestones.map((temp_milestone) => {
 			if (milestone.title === temp_milestone.title &&
 				temp_milestone.unlocked === false) {
 
-				return Object.assign({}, milestone, {
+				return Object.assign({}, temp_milestone, {
 					unlocked: true
 				});
 			} else {
@@ -66,10 +65,15 @@ const Milestone = (props) => {
 		icon_output = <i className='icon'>{props.icon}</i>;
 	}
 
-	if (props.lines_of_code <= total_lines_of_code &&
-		props.unlocked === false) {
-		// props.unlockMilestone(props);
+	useEffect(() => {
+		if (props.lines_of_code <= total_lines_of_code &&
+			props.unlocked === false) {
+			props.unlockMilestone(props);
+		}
+	});
 
+	if (props.lines_of_code <= total_lines_of_code &&
+		props.unlocked === true) {
 		return (
 			<div className='column milestone piled segment'>
 				<div className="fluid ui segment">
