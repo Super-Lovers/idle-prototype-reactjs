@@ -2,6 +2,9 @@
 import React from 'react';
 import { useState } from 'react';
 import useInterval from '../counter/UseInterval'
+// Toastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Source code
 import './App.css';
@@ -11,11 +14,11 @@ import { CodeContext } from '../contexts/code_context';
 import Programmer from '../programmer/Programmer';
 import Milestones from '../milestones/Milestones';
 import Upgrades from '../upgrades/Upgrades';
-import Notifications from '../milestones/notification/Notifications';
+import Notification from '../milestones/notification/Notification';
 
-const App = (props) => {
+const App = () => {
 	// State
-	const starting_lines_of_code = 114;
+	const starting_lines_of_code = 499.9;
 	const [total_lines_of_code, setTotalLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code, setLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code_per_second, setLinesOfCodePerSecond] = useState(0);
@@ -28,6 +31,25 @@ const App = (props) => {
 		background_keyboard_sounds.play();
 		background_keyboard_sounds.loop = true;
 		background_keyboard_sounds.volume = 0.2;
+	}
+
+	// Notifications
+	const pushMilestoneNotification = (milestone) => {
+		toast(
+			<Notification
+				title={milestone.title}
+				description={milestone.description}
+				icon={milestone.icon}
+				icon_alt={milestone.icon_alt}
+				lines_of_code={milestone.lines_of_code}
+			/>, {
+				autoClose: false,
+				closeOnClick: true,
+				delay: 0,
+				closeButton: false,
+				draggable: false,
+			}
+		);
 	}
 
 	// Functions triggered automatically periodically or through a tap/click
@@ -84,7 +106,7 @@ const App = (props) => {
 			}
 		}
 
-		return total_lines_of_code_written
+		return total_lines_of_code_written;
 	}
 
 	return (
@@ -96,14 +118,15 @@ const App = (props) => {
 					decrementLinesOfCode,
 					updateLinesOfCodePerSecond,
 					fetchUpgrades,
+					pushMilestoneNotification,
 				}
 			}>
 			<div className='app ui grid container'>
-				<Milestones/>
-				<Programmer/>
-				<Upgrades/>
+				<Milestones />
+				<Programmer />
+				<Upgrades />
 			</div>
-			<Notifications/>
+			<ToastContainer />
 		</CodeContext.Provider>
 	);
 };

@@ -10,6 +10,7 @@ import './Milestones.css';
 import { CodeContext } from '../contexts/code_context';
 
 const Milestones = (props) => {
+	const { pushMilestoneNotification } = useContext(CodeContext);
 	const [milestones, setMilestones] = useState(milestones_seed.milestones);
 
 	const unlockMilestone = (milestone) => {
@@ -25,6 +26,7 @@ const Milestones = (props) => {
 			}
 		});
 
+		pushMilestoneNotification(milestone);
 		setMilestones(new_milestones);
 	};
 
@@ -36,6 +38,7 @@ const Milestones = (props) => {
 		<Milestone
 			key={uuid()}
 			title={milestone.title}
+			description={milestone.description}
 			icon={milestone.icon}
 			icon_alt={milestone.icon_alt}
 			unlocked={milestone.unlocked}
