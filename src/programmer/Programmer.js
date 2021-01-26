@@ -6,7 +6,7 @@ import { CodeContext } from '../contexts/code_context';
 // Source code
 import './Programmer.css';
 
-const Programmer = (props) => {
+const Programmer = () => {
 	const {
 		total_lines_of_code,
 		lines_of_code,
@@ -32,12 +32,14 @@ const Programmer = (props) => {
 					</span>
 				</div>
 				<div className='ui column'>
-					<img 
-						className='ui centered rounded image programmer'
-						src='bango_programmer.gif'
-						alt='programmer cat'
-						onClick={handleClick}	
-					/>
+					<span className='programmer'>
+						<img 
+							className='ui centered rounded image'
+							src='bango_programmer.gif'
+							alt='programmer cat'
+							onClick={handleClick}	
+						/>
+					</span>
 				</div>
 			</div>
 		</div>

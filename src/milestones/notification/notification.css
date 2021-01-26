@@ -3,6 +3,10 @@
 	overflow: visible;
 }
 
+.Toastify__toast-body {
+	width: 100%;
+}
+
 .notification > .content {
 	border-top: none;
 	margin-top: 0;

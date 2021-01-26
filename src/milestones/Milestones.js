@@ -9,7 +9,7 @@ import uuid from 'react-uuid';
 import './Milestones.css';
 import { CodeContext } from '../contexts/code_context';
 
-const Milestones = (props) => {
+const Milestones = () => {
 	const { pushMilestoneNotification } = useContext(CodeContext);
 	const [milestones, setMilestones] = useState(milestones_seed.milestones);
 

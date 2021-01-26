@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useContext } from 'react';
-import upgrades_seed from './upgrades_seed copy';
+import upgrades_seed from './upgrades_seed';
 import uuid from 'react-uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -10,14 +10,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Upgrades.css';
 import { CodeContext } from '../contexts/code_context';
 
-const Upgrades = (props) => {
+const Upgrades = () => {
 	const [upgrades, setUpgrades] = useState(upgrades_seed.upgrades);
 
 	const {
 		lines_of_code,
 		updateLinesOfCodePerSecond,
 		fetchUpgrades,
-		decrementLinesOfCode } = useContext(CodeContext);
+		decrementLinesOfCode,
+		pushUpgradeNotification } = useContext(CodeContext);
 
 	const unlockUpgrade = (upgrade) => {
 		let index, counter = 0;
@@ -84,13 +85,13 @@ const Upgrades = (props) => {
 			}
 		});
 
-		// TODO: Make a pop-up to indicate why the purchase failed
-		if (canPurchase === false) { return; }
+		if (canPurchase === false) {
+			pushUpgradeNotification(upgrade, 'error');
+			return;
+		}
 
 		updateLinesOfCodePerSecond(total_lines_of_code_per_second);
 
-		// TODO: Make a pop-up/achievement indicating a new upgrade has been unlocked
-		// TODO: Make a pop-up to indicate the purchase was successful + the resulting lines of code
 		if (index < new_upgrades.length &&
 			(new_upgrades[index - 1].quantity === new_upgrades[index - 1].max_quantity ||
 				new_upgrades[index - 1].quantity >= 3) &&
@@ -99,6 +100,7 @@ const Upgrades = (props) => {
 				new_upgrades[index].visible = true;
 		}
 
+		pushUpgradeNotification(upgrade, 'success');
 		setUpgrades(new_upgrades);
 		fetchUpgrades(new_upgrades);
 	};
@@ -110,6 +112,7 @@ const Upgrades = (props) => {
 			icon={upgrade.icon}
 			color={upgrade.color}
 			price_properties={upgrade.price_properties}
+			current_lines_of_code={lines_of_code}
 			output_properties={upgrade.output_properties}
 			title={upgrade.title}
 			visible={upgrade.visible}
@@ -138,7 +141,9 @@ const Upgrade = (props) => {
 	const current_increment =
 		props.quantity > 0 ? props.output_properties.current_increment : 0;
 
-	if (props.visible && props.quantity < props.max_quantity) {
+	if (props.visible &&
+		props.quantity < props.max_quantity && 
+		props.price_properties.current_price < props.current_lines_of_code) {
 		return (
 			<div className='column upgrade'>
 				<div className='ui segment'>
@@ -159,7 +164,9 @@ const Upgrade = (props) => {
 				<div className="ui inverted divider"></div>
 			</div>
 		);
-	} else if (props.visible && props.quantity === props.max_quantity) {
+	} else if (
+		props.visible &&
+		props.quantity === props.max_quantity) {
 		return (
 			<div className='column upgrade'>
 				<div className='ui segment inverted yellow'>
@@ -175,6 +182,30 @@ const Upgrade = (props) => {
 				<button
 					className={`fluid ui basic ${props.color} button disabled`}
 					// onClick={handleUnlockUpgrade}
+					>
+					<i className='icon'>{props.icon}</i>
+					{props.title}
+					<span className='increment'> +({current_increment})</span>
+				</button>
+				<div className="ui inverted divider"></div>
+			</div>
+		);
+	} else if (
+		props.visible &&
+		props.quantity < props.max_quantity &&
+		props.price_properties.current_price > props.current_lines_of_code) {
+		return (
+			<div className='column upgrade'>
+				<div className='ui segment'>
+					<p className='price'>
+						<FontAwesomeIcon icon='code'/>
+						<span> {props.price_properties.current_price}</span>
+						<span> <b>(tier {props.quantity})</b></span>
+					</p>
+				</div>
+				<button
+					className={`fluid ui basic ${props.color} button disabled`}
+					onClick={handleUnlockUpgrade}
 					>
 					<i className='icon'>{props.icon}</i>
 					{props.title}

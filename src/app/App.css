@@ -1,6 +1,6 @@
-.programmer {
+.programmer > img {
+	cursor: pointer;
 	width: 350px;
-	/* TODO: add pointer cursor when hovering */
 }
 
 .milestone, .upgrade {

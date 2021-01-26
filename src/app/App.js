@@ -18,11 +18,11 @@ import Notification from '../milestones/notification/Notification';
 
 const App = () => {
 	// State
-	const starting_lines_of_code = 499.9;
+	const starting_lines_of_code = 50;
 	const [total_lines_of_code, setTotalLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code, setLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code_per_second, setLinesOfCodePerSecond] = useState(0);
-	const [upgrades, refreshUpgrades] = useState([]);
+	const [upgrades, setUpgrades] = useState([]);
 
 	// Audio
 	const background_keyboard_sounds = new Audio('./audio/computer-keyboard.mp3');
@@ -37,18 +37,58 @@ const App = () => {
 	const pushMilestoneNotification = (milestone) => {
 		toast(
 			<Notification
+				role='success'
 				title={milestone.title}
 				description={milestone.description}
 				icon={milestone.icon}
 				icon_alt={milestone.icon_alt}
 				lines_of_code={milestone.lines_of_code}
 			/>, {
+				position: 'top-center',
 				autoClose: false,
 				closeOnClick: true,
 				delay: 0,
 				closeButton: false,
 				draggable: false,
 			}
+		);
+	}
+	
+	const pushUpgradeNotification = (upgrade, type) => {
+		const config = {
+			role: type,
+			position: 'top-center',
+			autoClose: false,
+			closeOnClick: true,
+			delay: 0,
+			closeButton: false,
+			draggable: false,
+		}
+
+		let title, description, meta;
+		switch (type) {
+			case 'error':
+				title = 'Insufficiet lines of code!';
+				description = `You need to write more lines of code before you can afford "${upgrade.title}"!`;
+				meta = `Short by ${parseFloat(upgrade.price_properties.current_price) - parseFloat(lines_of_code)} lines`;
+				break;
+			case 'success':
+				title = `You bought ${upgrade.title}!`;
+				description = `You now have ${upgrade.quantity + 1} of ${upgrade.title}`;
+				meta = 'Good job, programmer';
+				break;
+			default:
+				break;
+		}
+
+		toast(
+			<Notification
+				role={type}
+				title={title}
+				description={description}
+				icon={upgrade.icon}
+				lines_of_code={meta}
+			/>, config
 		);
 	}
 
@@ -88,7 +128,7 @@ const App = () => {
 	}
 
 	const fetchUpgrades = (new_upgrades) => {
-		refreshUpgrades(new_upgrades);
+		setUpgrades(new_upgrades);
 	}
 
 	useInterval(() => {
@@ -110,24 +150,27 @@ const App = () => {
 	}
 
 	return (
-		<CodeContext.Provider value={{
-					total_lines_of_code,
-					lines_of_code,
-					lines_of_code_per_second,
-					incrementLinesOfCodeOnClick,
-					decrementLinesOfCode,
-					updateLinesOfCodePerSecond,
-					fetchUpgrades,
-					pushMilestoneNotification,
-				}
-			}>
+		<div>
 			<div className='app ui grid container'>
-				<Milestones />
-				<Programmer />
-				<Upgrades />
+				<CodeContext.Provider value={{
+							total_lines_of_code,
+							lines_of_code,
+							lines_of_code_per_second,
+							incrementLinesOfCodeOnClick,
+							decrementLinesOfCode,
+							updateLinesOfCodePerSecond,
+							fetchUpgrades,
+							pushMilestoneNotification,
+							pushUpgradeNotification,
+						}
+					}>
+						<Milestones />
+						<Programmer />
+						<Upgrades />
+				</CodeContext.Provider>
 			</div>
-			<ToastContainer />
-		</CodeContext.Provider>
+		<ToastContainer />
+		</div>
 	);
 };
 
