@@ -8,4 +8,4 @@
 
 ## 🧐 About <a name = "about"></a>
 
-This is a simple idle game prototype I made in around five days while learning how to use ReactJS. The prototype is about a programmer bango cat banging on the keyboard to write code and the player helping it get better at it as time goes. I made it during the [Coding Blocks game jam](https://itch.io/jam/coding-blocks-2021/) but didn't submit it since it wasn't part of the theme.
+This is a simple idle game prototype I made in around five days while learning how to use ReactJS. The prototype is about a programmer bango cat banging on the keyboard to write code and the player helping it get better at it as time goes. I made it during the [Coding Blocks game jam](https://itch.io/jam/coding-blocks-2021/) but didn't submit it since it wasn't part of the theme. Keep in mind, the code itself is not very well optimized due to my unfamiliarity with Reactjs and having some trouble with state logic and re-rendering the interface.
