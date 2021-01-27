@@ -18,7 +18,7 @@ import Notification from '../milestones/notification/Notification';
 
 const App = () => {
 	// State
-	const starting_lines_of_code = 50;
+	const starting_lines_of_code = 2000;
 	const [total_lines_of_code, setTotalLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code, setLinesOfCode] = useState(starting_lines_of_code);
 	const [lines_of_code_per_second, setLinesOfCodePerSecond] = useState(0);

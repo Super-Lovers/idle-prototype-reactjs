@@ -1,6 +1,8 @@
 import './notification.css';
 
-const Notification = ({ closeToast, title, description, icon, lines_of_code, role }) => {
+const Notification = (
+	{ closeToast, title, description, icon, lines_of_code, role }) => {
+	
 	const color = role === 'success' ? 'green' : 'red';
 	const button_text = role === 'success' ? 'Sweet!' : 'Close'
 
